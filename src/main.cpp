@@ -17,6 +17,7 @@ int main(int argc, char **argv)
     if(name == "" && number == -1)
     {
         app.exit(CLI::CallForHelp());
+        return 1;
     }
     oddOrEven(number);
     greeting(name);
