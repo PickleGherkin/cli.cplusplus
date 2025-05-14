@@ -15,13 +15,13 @@ int main(int argc, char **argv)
 
     app.add_option("-n, --name", name, "Name");
     app.add_option("-o, --oddOrEven", number, "Integer Number");
-    app.add_option("-g, --showGitCommits", gitRepoPath, "Path to git repo");
+    app.add_option("-g, --gitxstat", gitRepoPath, "Path to git repo");
 
     CLI11_PARSE(app, argc, argv);
 
     if (gitRepoPath != "")
     {
-        return showGitCommits(gitRepoPath);
+        return gitxstat(gitRepoPath);
     }
     if (name != "")
     {

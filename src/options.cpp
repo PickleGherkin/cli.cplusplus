@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <unistd.h>
+#include <map>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ int greeting(string name)
     return 0;
 }
 
-int showGitCommits(const string &repoPath)
+int gitxstat(const string &repoPath)
 {
     // change cwd
     if (chdir(repoPath.c_str()) != 0)
@@ -47,17 +48,35 @@ int showGitCommits(const string &repoPath)
 
     istringstream stream(result);
     string line;
+    string author;
     int totalAdded = 0;
+    map<string, int> authorContribution;
     // parse output
     while (getline(stream, line))
     {
-        int added, removed;
+        if (line.rfind("Author:", 0) == 0)
+        {
+            size_t start = 8;
+            size_t end = line.find('<', start);
+            if (end != string::npos)
+                author = line.substr(start, end - start - 1);
+            else
+                author = line.substr(start);
+            continue;
+        }
+        int added;
         char filename[1024];
         if (sscanf(line.c_str(), "%d%1023s", &added, filename) == 2)
         {
             totalAdded += added;
+            authorContribution[author] += added;
         }
     }
-    cout << "Added Lines: " << totalAdded << endl;
+
+    for (const auto &entry : authorContribution)
+    {
+        double percent = totalAdded > 0 ? (100.0 * entry.second / totalAdded) : 0.0;
+        cout << entry.first << ": " << percent << "%" << endl;
+    }
     return 0;
 }
