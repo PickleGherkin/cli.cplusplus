@@ -7,23 +7,17 @@
 
 using namespace std;
 
-void oddOrEven(int number)
+int oddOrEven(int number)
 {
-    if (number == -1)
-    {
-        return;
-    }
     string ooe = number % 2 == 0 ? "Even" : "Odd";
     cout << "Number is " << ooe << "." << endl;
+    return 0;
 }
 
-void greeting(string name)
+int greeting(string name)
 {
-    if (name == "")
-    {
-        return;
-    }
     cout << "Hello " << name << "!" << endl;
+    return 0;
 }
 
 int showGitCommits(const string& repoPath)
@@ -41,6 +35,7 @@ int showGitCommits(const string& repoPath)
     FILE* pipe = popen("git log --numstat", "r");
     if (!pipe)
     {
+        cerr << "Error showing git commits." << endl;
         cerr << "Failed to open process." << endl;
         return 1;
     }

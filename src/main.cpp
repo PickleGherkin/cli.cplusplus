@@ -2,13 +2,16 @@
 #include "options.h"
 #include <iostream>
 
+using namespace std;
+using namespace CLI;
+
 int main(int argc, char **argv)
 {
-    CLI::App app{"CLI in C++"};
+    App app{"CLI in C++"};
     argv = app.ensure_utf8(argv);
-    std::string name = "";
+    string name = "";
     int number = -1;
-    std::string gitRepoPath = "";
+    string gitRepoPath = "";
 
     app.add_option("-n, --name", name, "Name");
     app.add_option("-o, --oddOrEven", number, "Integer Number");
@@ -18,20 +21,16 @@ int main(int argc, char **argv)
 
     if (gitRepoPath != "")
     {
-        int result = showGitCommits(gitRepoPath);
-        if (result != 0)
-        {
-            std::cerr << "Error showing git commits." << std::endl;
-            return result;
-        }
-        return 0;
+        return showGitCommits(gitRepoPath);
     }
-    if (name == "" && number == -1)
+    if (name != "")
     {
-        app.exit(CLI::CallForHelp());
-        return 1;
+        return greeting(name);
     }
-    oddOrEven(number);
-    greeting(name);
-    return 0;
+    if (number != -1)
+    {
+        return oddOrEven(number);
+    }
+    app.exit(CallForHelp());
+    return 1;
 }
