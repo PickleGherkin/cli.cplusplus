@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     App app{"CLI in C++"};
     argv = app.ensure_utf8(argv);
     string name = "";
-    int number = -1;
+    int number = 0;
     string gitRepoPath = "";
 
     app.add_option("-n, --name", name, "Name");
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     {
         return greeting(name);
     }
-    if (number != -1)
+    if (number != 0)
     {
         return oddOrEven(number);
     }
