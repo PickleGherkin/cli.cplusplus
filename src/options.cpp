@@ -1,10 +1,20 @@
+// https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-170#predefined-macros
+#ifdef _WIN32 // case when os is windows
+#include <direct.h>
+#define chdir _chdir // preprocessor alias for system functions because windows tends to be innovative, right?
+#define popen _popen
+#define pclose _pclose
+#else // otherwise system functions from unix os
+#include <unistd.h>
+#endif
+
 #include "options.h"
 #include <iostream>
 #include <array>
 #include <string>
 #include <sstream>
-#include <unistd.h>
 #include <map>
+#include <cstdio>
 
 using namespace std;
 
